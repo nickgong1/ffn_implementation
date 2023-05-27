@@ -132,7 +132,7 @@
 #     plt.show()
     
     
-# def main_():
+# if __name__ == "__main__":
 #     torch.manual_seed(1234)
 #     train_loader, test_loader = MNIST_loaders()
     
@@ -308,7 +308,7 @@ def visualize_sample(data, name='', idx=0):
     plt.show()
     
     
-def main_():
+if __name__ == "__main__":
     torch.manual_seed(1234)
     train_loader, test_loader = MNIST_loaders()
 
