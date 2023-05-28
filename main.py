@@ -1,12 +1,20 @@
-# import matplotlib.pyplot as plt
-# import torch
-# import torch.nn as nn
-# from tqdm import tqdm
-# from torch.optim import Adam
-# from torchvision.datasets import MNIST
-# from torchvision.transforms import Compose, ToTensor, Normalize, Lambda
-# from torch.utils.data import DataLoader
+import matplotlib.pyplot as plt
+import torch
+import torch.nn as nn
+from tqdm import tqdm
+from torch.optim import Adam
+from torchvision.datasets import MNIST
+from torchvision.transforms import Compose, ToTensor, Normalize, Lambda
+from torch.utils.data import DataLoader
 
+
+
+############################################################################
+############################################################################
+# This implementation uses conv2d and did not flatten the image. 
+# I changed some of the original implementation according to my own understanding of the originla paper
+############################################################################
+############################################################################
 
 # def MNIST_loaders(train_batch_size=8000, test_batch_size=3000):
 #     transform = Compose([
@@ -55,8 +63,7 @@
 #             goodness = torch.zeros(x.shape[0]).cuda()
 #             for layer in self.layers:
 #                 for_next,h = layer(for_next)
-#                 temp = h.squeeze()
-#                 goodness += temp.pow(2).sum([1,2])
+#                 goodness += h.squeeze().pow(2).sum([1,2])
 #             goodness_per_label[label] = goodness
         
 #         return goodness_per_label.argmax(0)
@@ -80,8 +87,6 @@
 #         self.conv3 = torch.nn.Conv2d(in_channels = 8, out_channels = 16, kernel_size= 7, padding=3)
 #         self.conv4 = torch.nn.Conv2d(in_channels = 16, out_channels = 4, kernel_size= 7, padding=3)
 #         self.conv5 = torch.nn.Conv2d(in_channels = 4, out_channels = 1, kernel_size= 7, padding=3)
-
-        
 #         ############
         
 #         self.opt = Adam(self.parameters(), lr=0.01)
@@ -89,13 +94,16 @@
 #         self.num_epochs = 500
 
 #     def forward(self, x):
+    
 #         ans = self.conv1(x)
 #         ans = self.conv2(ans)
 #         ans = self.conv3(ans)
 #         ans = self.conv4(ans)
 #         ans = self.conv5(ans)
 #         ans = self.relu(ans)
-#         x_direction = ans / (ans.norm(2, [2,3], keepdim=True) + 1e-4)
+#         # I did not fully understand the purpose of this x_direction.The original implementation put it before any other layers. 
+#         # However, according to the original papaer, I think this is the layer normalization, so I put it at the en dof all layers
+#         x_direction = ans / (ans.norm(2, [2,3], keepdim=True) + 1e-4)  
 
 #         return x_direction, ans
 
@@ -147,6 +155,8 @@
 #     net = Net([1,1,1])
 #     train_ac = 0
 #     train_total = 0
+
+#     # The original implementation used a single batch; however, I have the problem of ram capacity
 #     for x,y in train_loader:
 #         x, y = x.cuda(), y.cuda()
 #         x_pos = overlay_y_on_x(x, y)
@@ -176,6 +186,12 @@
 
 
 
+#################################################################################
+#################################################################################
+# This implementation I uses conv1d. I basically follows the original implementation, 
+# the only change made is that I add some conv layers 
+#################################################################################
+#################################################################################
 
 import matplotlib.pyplot as plt
 import torch
