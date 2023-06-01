@@ -78,8 +78,8 @@ class Layer(torch.nn.Module):
         ############
         self.conv1 = torch.nn.Conv2d(in_channels = input, out_channels = 128, kernel_size= 7,padding = 3)
         self.conv2 = torch.nn.Conv2d(in_channels = 128, out_channels = output, kernel_size= 7, padding = 3)
-        self.bn = torch.nn.LayerNorm(28)
-        self.bn1 = torch.nn.LayerNorm(28)
+        self.ln = torch.nn.LayerNorm(28)
+        self.ln1 = torch.nn.LayerNorm(28)
         ############
         
         self.opt = Adam(self.parameters(), lr=0.001)
@@ -89,10 +89,10 @@ class Layer(torch.nn.Module):
     def forward(self, x):
         x_direction = x / (x.norm(2, [2,3], keepdim=True) + 1e-4)
         ans = self.conv1(x_direction)
-        ans = self.bn1(ans)
+        ans = self.ln1(ans)
         ans = self.relu(ans)
         ans = self.conv2(ans)
-        ans = self.bn(ans)
+        ans = self.ln(ans)
         ans = self.relu(ans)
 
         return ans, ans
