@@ -165,7 +165,7 @@ def main_():
         
         train_errors.append(error)
 
-        print('error each epoch: ', error)
+        print('error each batch: ', error)
         count += 1
     
     fin_error = sum(train_errors[len(train_errors)-3:])/3
@@ -176,10 +176,10 @@ def main_():
 
 
     plt.plot(x_axis, train_errors)
-    plt.xlabel('epoch')
+    plt.xlabel('batch')
     plt.xticks(x_axis)
     plt.ylabel('training error')
-    plt.title('training error vs epoch')
+    plt.title('training error vs batch')
     plt.show()
 
 
